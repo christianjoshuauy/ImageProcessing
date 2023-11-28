@@ -8,3 +8,13 @@ C:\Users\Christian\source\repos\ImageProcessing\ImageProcessing\obj\Debug\ImageP
 C:\Users\Christian\source\repos\ImageProcessing\ImageProcessing\obj\Debug\ImageProcessing.csproj.CoreCompileInputs.cache
 C:\Users\Christian\source\repos\ImageProcessing\ImageProcessing\obj\Debug\ImageProcessing.exe
 C:\Users\Christian\source\repos\ImageProcessing\ImageProcessing\obj\Debug\ImageProcessing.pdb
+C:\Users\Dell\Source\Repos\ImageProcessing\ImageProcessing\bin\Debug\ImageProcessing.exe.config
+C:\Users\Dell\Source\Repos\ImageProcessing\ImageProcessing\bin\Debug\ImageProcessing.exe
+C:\Users\Dell\Source\Repos\ImageProcessing\ImageProcessing\bin\Debug\ImageProcessing.pdb
+C:\Users\Dell\Source\Repos\ImageProcessing\ImageProcessing\obj\Debug\ImageProcessing.csproj.AssemblyReference.cache
+C:\Users\Dell\Source\Repos\ImageProcessing\ImageProcessing\obj\Debug\ImageProcessing.Form1.resources
+C:\Users\Dell\Source\Repos\ImageProcessing\ImageProcessing\obj\Debug\ImageProcessing.Properties.Resources.resources
+C:\Users\Dell\Source\Repos\ImageProcessing\ImageProcessing\obj\Debug\ImageProcessing.csproj.GenerateResource.cache
+C:\Users\Dell\Source\Repos\ImageProcessing\ImageProcessing\obj\Debug\ImageProcessing.csproj.CoreCompileInputs.cache
+C:\Users\Dell\Source\Repos\ImageProcessing\ImageProcessing\obj\Debug\ImageProcessing.exe
+C:\Users\Dell\Source\Repos\ImageProcessing\ImageProcessing\obj\Debug\ImageProcessing.pdb

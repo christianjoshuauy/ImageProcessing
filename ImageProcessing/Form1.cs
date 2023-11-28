@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WebCamLib;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ImageProcessing
 {
@@ -16,6 +15,7 @@ namespace ImageProcessing
     {
         Bitmap img, newImg, subtracted;
         Device selectedDevice;
+        bool openCam = false;
 
         public Form1()
         {
@@ -281,18 +281,52 @@ namespace ImageProcessing
 
             int targetWidth = 1920;
             int targetHeight = 1080;
-            newImg = new Bitmap(targetWidth, targetHeight);
-
-            for (int i = 0; i < targetWidth; i++)
-                for (int j = 0; j < targetHeight; j++)
-                {
-                    newImg.SetPixel(i, j, img.GetPixel(i * img.Width / targetWidth, j * img.Height / targetHeight));
-                }
+            scale(ref newImg, targetWidth, targetHeight);
             pictureBox2.Image = newImg;
+        }
+
+        private void scale(ref Bitmap modify, int width, int height)
+        {
+            modify = new Bitmap(width, height);
+
+            for (int i = 0; i < width; i++)
+                for (int j = 0; j < height; j++)
+                {
+                    modify.SetPixel(i, j, img.GetPixel(i * img.Width / width, j * img.Height / height));
+                }
         }
 
         private void subtractToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (newImg == null)
+            {
+                MessageBox.Show("Please open a background image to process.", "Error");
+                return;
+            }
+
+            if (openCam)
+            {
+                timer1.Start();
+            }
+            else
+            {
+                if (img == null)
+                {
+                    MessageBox.Show("Please open an image to process.", "Error");
+                    return;
+                }
+                subtract();
+            } 
+        }
+
+        private void subtract()
+        {
+            // Equalize image sizes
+            if(img.Width != newImg.Width && img.Height != newImg.Height)
+            {
+                scale(ref img, newImg.Width, newImg.Height);
+            }
+
             subtracted = new Bitmap(img.Width, img.Height);
             Color myGreen = Color.FromArgb(0, 255, 0);
             int greyGreen = (myGreen.R + myGreen.G + myGreen.B) / 3;
@@ -326,6 +360,7 @@ namespace ImageProcessing
             {
                 selectedDevice = DeviceManager.GetDevice(0);
                 selectedDevice.ShowWindow(pictureBox1);
+                openCam = true;
             }
             else
             {
@@ -338,11 +373,39 @@ namespace ImageProcessing
             if (selectedDevice != null)
             {
                 selectedDevice.Stop();
+                openCam = false;
             }
             else
             {
                 MessageBox.Show("No webcam devices found.");
             }
+        }
+
+        private Bitmap CaptureFrames()
+        {
+            if (selectedDevice == null)
+            {
+                MessageBox.Show("No device selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            selectedDevice.Sendmessage();
+            IDataObject data = Clipboard.GetDataObject();
+            if (data != null && data.GetData("System.Drawing.Bitmap", true) != null)
+            {
+                Image bmap = (Image)data.GetData("System.Drawing.Bitmap", true);
+                if (bmap != null)
+                {
+                    return new Bitmap(bmap);
+                }
+            }
+            return null;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            img = CaptureFrames();
+            subtract();
         }
 
         private void openBackgroundToolStripMenuItem_Click(object sender, EventArgs e)
