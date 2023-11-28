@@ -281,19 +281,20 @@ namespace ImageProcessing
 
             int targetWidth = 1920;
             int targetHeight = 1080;
-            scale(ref newImg, targetWidth, targetHeight);
+            newImg = scale(img, targetWidth, targetHeight);
             pictureBox2.Image = newImg;
         }
 
-        private void scale(ref Bitmap modify, int width, int height)
+        private Bitmap scale(Bitmap modify, int width, int height)
         {
-            modify = new Bitmap(width, height);
+            Bitmap modified = new Bitmap(width, height);
 
             for (int i = 0; i < width; i++)
                 for (int j = 0; j < height; j++)
                 {
-                    modify.SetPixel(i, j, img.GetPixel(i * img.Width / width, j * img.Height / height));
+                    modified.SetPixel(i, j, modify.GetPixel(i * modify.Width / width, j * modify.Height / height));
                 }
+            return modified;
         }
 
         private void subtractToolStripMenuItem_Click(object sender, EventArgs e)
@@ -324,7 +325,10 @@ namespace ImageProcessing
             // Equalize image sizes
             if(img.Width != newImg.Width && img.Height != newImg.Height)
             {
-                scale(ref img, newImg.Width, newImg.Height);
+                if (img.Width + img.Height < newImg.Width + newImg.Height)
+                    img = scale(img, newImg.Width, newImg.Height);
+                else
+                    newImg = scale(newImg, img.Width, img.Height);
             }
 
             subtracted = new Bitmap(img.Width, img.Height);
