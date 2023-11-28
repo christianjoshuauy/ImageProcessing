@@ -378,6 +378,8 @@ namespace ImageProcessing
             {
                 selectedDevice.Stop();
                 openCam = false;
+                timer1.Stop();
+                pictureBox3 = null;
             }
             else
             {
